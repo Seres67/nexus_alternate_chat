@@ -1,3 +1,4 @@
+#include "ixwebsocket/IXNetSystem.h"
 #include <globals.hpp>
 #include <gui.hpp>
 #include <imgui/imgui.h>
@@ -29,7 +30,7 @@ BOOL APIENTRY dll_main(const HMODULE hModule, const DWORD ul_reason_for_call, LP
 // NOLINTNEXTLINE(readability-identifier-naming)
 extern "C" __declspec(dllexport) AddonDefinition *GetAddonDef()
 {
-    addon_def.Signature = -9999999; // TODO: change this to a random number
+    addon_def.Signature = -69834302;
     addon_def.APIVersion = NEXUS_API_VERSION;
     addon_def.Name = addon_name;
     addon_def.Version.Major = 0;
@@ -37,12 +38,12 @@ extern "C" __declspec(dllexport) AddonDefinition *GetAddonDef()
     addon_def.Version.Build = 0;
     addon_def.Version.Revision = 0;
     addon_def.Author = "Seres67";
-    addon_def.Description = "An addon template! Read & change every todos in the code"; // TODO: change this
+    addon_def.Description = "An addon that provides an alternative way to chat in-game!";
     addon_def.Load = addon_load;
     addon_def.Unload = addon_unload;
     addon_def.Flags = EAddonFlags_None;
     addon_def.Provider = EUpdateProvider_GitHub;
-    addon_def.UpdateLink = nullptr; // TODO: change this
+    addon_def.UpdateLink = "https://github.com/Seres67/nexus_alternate_chat";
 
     return &addon_def;
 }
@@ -59,9 +60,10 @@ void addon_load(AddonAPI *api_p)
     api->Renderer.Register(ERenderType_OptionsRender, addon_options);
     // api->WndProc.Register(wnd_proc);
 
-    Settings::settings_path = api->Paths.GetAddonDirectory("template\\settings.json"); //TODO: change this
+    Settings::settings_path = api->Paths.GetAddonDirectory("alternate_chat\\settings.json");
     if (std::filesystem::exists(Settings::settings_path))
         Settings::load(Settings::settings_path);
+    ix::initNetSystem();
     api->Log(ELogLevel_INFO, addon_name, "addon loaded!");
 }
 

@@ -1,6 +1,7 @@
-# Nexus Template
+# Nexus Alternate Chat
 
-A Nexus addon template.
+A Nexus addon that provides an alternative chat window.  
+Messages are NOT (yet?) end-to-end encrypted.
 
 ## License
 

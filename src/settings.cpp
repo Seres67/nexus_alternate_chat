@@ -7,13 +7,31 @@
 #include <nexus/Nexus.h>
 
 using json = nlohmann::json;
+
+void from_json(const nlohmann::json &j, Channel &s)
+{
+    s.id = j.at("id").get<std::string>();
+    s.join_code = j.at("join_code").get<std::string>();
+    s.update_code = j.at("update_code").get<std::string>();
+    s.delete_code = j.at("delete_code").get<std::string>();
+}
+
+void to_json(nlohmann::json &j, const Channel &s)
+{
+    j = json{
+        {"id", s.id},
+        {"join_code", s.join_code},
+        {"update_code", s.update_code},
+        {"delete_code", s.delete_code},
+    };
+}
+
 namespace Settings
 {
 json json_settings;
 std::mutex mutex;
 std::filesystem::path settings_path;
-
-bool is_addon_enabled = true;
+std::vector<Channel> channels;
 
 void load(const std::filesystem::path &path)
 {
@@ -34,6 +52,8 @@ void load(const std::filesystem::path &path)
             api->Log(ELogLevel_WARNING, addon_name, ex.what());
         }
     }
+    if (!json_settings["Channels"].is_null())
+        json_settings["Channels"].get_to(channels);
     api->Log(ELogLevel_INFO, addon_name, "settings loaded!");
 }
 
