@@ -118,6 +118,7 @@ void render_options()
     for (auto &channel : Settings::channels) {
         ImGui::Text("%s", channel.id.c_str());
         ImGui::SameLine();
+        //TODO: add button to copy joinCode
         if (ImGui::Button(std::format("Leave##AlternateChat{}", channel.id).c_str())) {
             api->Log(ELogLevel_DEBUG, addon_name, channel.delete_code.c_str());
             httplib::Client cli("http://localhost:3000");
